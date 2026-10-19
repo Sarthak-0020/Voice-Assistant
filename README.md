@@ -3,8 +3,11 @@
 An AI-powered assistant for visually impaired people to navigate supermarkets using voice commands.
 
 ## Overview
+## Demo Video
+🎥 [Watch the Project Demo](https://drive.google.com/file/d/15-aI6Dsl2JtZPcv59AmqjbxfJhrQdlaB/view?usp=drivesdk)
 
 This application provides voice-guided navigation assistance for visually impaired users in supermarket environments. It uses AI to understand voice commands, provide real-time navigation guidance, and help locate products efficiently.
+
 
 ## Features
 
