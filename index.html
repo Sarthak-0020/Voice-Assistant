@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarket Voice Navigator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-shopping-cart"></i> Voice Navigator</h1>
+            <div class="status-bar">
+                <span id="current-location">📍 Entrance</span>
+                <span id="connection-status">🟢 Connected</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Voice Control Panel -->
+            <section class="voice-panel">
+                <div class="voice-controls">
+                    <button id="voice-btn" class="voice-button" aria-label="Start voice command">
+                        <i class="fas fa-microphone"></i>
+                        <span>Press to Speak</span>
+                    </button>
+                    <button id="stop-voice-btn" class="voice-stop-button" style="display: none;" aria-label="Stop listening">
+                        <i class="fas fa-stop"></i>
+                        <span>Stop</span>
+                    </button>
+                    <div class="voice-status">
+                        <span id="listening-indicator">🎤 Ready to listen</span>
+                    </div>
+                </div>
+                
+                <!-- Text Input Alternative -->
+                <div class="text-input-section">
+                    <div class="input-group">
+                        <input type="text" id="text-command" placeholder="Type your command here..." aria-label="Type voice command">
+                        <button id="text-submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Response Area -->
+            <section class="response-section">
+                <div class="response-box">
+                    <h3>Assistant Response</h3>
+                <div id="response-text" class="response-content">
+                        Welcome to the Supermarket Voice Navigator! You can speak commands or use the controls below.
+                    </div>
+                    <div class="response-controls">
+                        <button id="speak-response" class="btn btn-secondary" title="Speak the response">
+                            <i class="fas fa-volume-up"></i> Speak
+                        </button>
+                        <button id="stop-speaking" class="btn btn-danger" style="display: none;" title="Stop speaking">
+                            <i class="fas fa-stop"></i> Stop Voice
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-grid">
+                    <button class="action-btn" data-command="where am I">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Where Am I?
+                    </button>
+                    <button class="action-btn" data-command="help">
+                        <i class="fas fa-question-circle"></i>
+                        Help
+                    </button>
+                    <button class="action-btn" data-command="find bread">
+                        <i class="fas fa-search"></i>
+                        Find Product
+                    </button>
+                    <button class="action-btn" data-command="go to bakery">
+                        <i class="fas fa-directions"></i>
+                        Get Directions
+                    </button>
+                </div>
+            </section>
+
+            <!-- Product Search -->
+            <section class="product-search">
+                <h3>Product Search</h3>
+                <div class="search-container">
+                    <div class="input-group">
+                        <input type="text" id="product-search" placeholder="Search for products..." aria-label="Search products">
+                        <button id="search-btn" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div id="search-results" class="search-results"></div>
+                </div>
+            </section>
+
+            <!-- Store Map -->
+            <section class="store-map">
+                <h3><i class="fas fa-map"></i> Store Layout & Navigation</h3>
+                <div class="map-container">
+                    <div id="store-map" class="map-display">
+                        <!-- Map Controls -->
+                        <div class="map-controls">
+                            <button id="stop-navigation" class="map-control-btn stop" style="display: none;">
+                                <i class="fas fa-stop"></i>
+                                <span>Stop</span>
+                            </button>
+                            <button id="reset-navigation" class="map-control-btn reset" style="display: none;">
+                                <i class="fas fa-redo"></i>
+                                <span>Reset</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Grid Container -->
+                        <div id="store-grid" class="store-grid">
+                            <!-- Grid cells will be generated by JavaScript -->
+                        </div>
+                        
+                        <!-- Map Legend -->
+                        <div class="map-legend">
+                            <div class="legend-item">
+                                <span class="legend-color current"></span>
+                                <span>Your Location</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color destination"></span>
+                                <span>Destination</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color landmark"></span>
+                                <span>Landmarks</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color aisle"></span>
+                                <span>Aisles</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color path"></span>
+                                <span>Navigation Path</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Panel -->
+            <section class="navigation-panel">
+                <h3>Navigation</h3>
+                
+                <!-- Quick Navigation -->
+                <div class="nav-controls">
+                    <select id="destination-select" aria-label="Select destination">
+                        <option value="">Select a destination...</option>
+                    </select>
+                    <button id="get-directions" class="btn btn-primary">
+                        <i class="fas fa-route"></i> Get Directions
+                    </button>
+                </div>
+                
+                <!-- Advanced Navigation: From Location to Location -->
+                <div class="advanced-nav">
+                    <h4>Advanced Navigation</h4>
+                    <p class="nav-description">Get directions between any two locations</p>
+                    <div class="location-inputs">
+                        <div class="input-group">
+                            <label for="from-location">From:</label>
+                            <select id="from-location" aria-label="Select starting location">
+                                <option value="">Select starting location...</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="to-location">To:</label>
+                            <select id="to-location" aria-label="Select destination">
+                                <option value="">Select destination...</option>
+                            </select>
+                        </div>
+                        <button id="get-advanced-directions" class="btn btn-primary btn-wide">
+                            <i class="fas fa-map-marked-alt"></i> Get Route Between Locations
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Current Location Update -->
+                <div class="location-update">
+                    <h4>Update Your Location</h4>
+                    <div class="input-group">
+                        <select id="current-location-select" aria-label="Set your current location">
+                            <option value="">Where are you now?</option>
+                        </select>
+                        <button id="update-location" class="btn btn-secondary">
+                            <i class="fas fa-map-pin"></i> Update Location
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="directions-display" class="directions"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="accessibility-notice">
+                    <i class="fas fa-universal-access"></i>
+                    <span>Designed for accessibility - Use keyboard navigation and screen readers</span>
+                </div>
+                <div class="controls">
+                    <button id="settings-btn" class="btn btn-ghost" aria-label="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button id="fullscreen-btn" class="btn btn-ghost" aria-label="Toggle fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="modal-close" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label for="voice-speed">Voice Speed</label>
+                    <input type="range" id="voice-speed" min="0.5" max="2" step="0.1" value="1">
+                    <span id="speed-value">1.0x</span>
+                </div>
+                <div class="setting-group">
+                    <label for="voice-volume">Voice Volume</label>
+                    <input type="range" id="voice-volume" min="0" max="1" step="0.1" value="0.8">
+                    <span id="volume-value">80%</span>
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="auto-speak" checked>
+                        Automatically speak responses
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="high-contrast">
+                        High contrast mode
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings" class="btn btn-primary">Save Settings</button>
+                <button class="modal-close btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading" aria-hidden="true">
+        <div class="spinner"></div>
+        <span>Processing...</span>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
