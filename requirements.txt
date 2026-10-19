@@ -1,0 +1,37 @@
+# Core AI and ML libraries
+openai>=1.0.0
+anthropic>=0.20.0
+
+# Speech recognition and synthesis
+SpeechRecognition>=3.10.0
+pyttsx3>=2.90
+pyaudio>=0.2.11
+
+# Audio processing
+librosa>=0.10.0
+soundfile>=0.12.1
+
+# Web and API
+requests>=2.31.0
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Data processing
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Configuration and utilities
+PyYAML>=6.0
+python-dotenv>=1.0.0
+click>=8.1.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Development tools
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0

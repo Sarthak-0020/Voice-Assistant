@@ -1,0 +1,49 @@
+# Supermarket Voice Navigator Configuration
+
+# Voice Interface Settings
+speech_rate: 150                    # Words per minute (50-300)
+speech_volume: 0.8                  # Volume level (0.0-1.0)
+speech_language: "en-US"            # Speech recognition language
+microphone_timeout: 5               # Seconds to wait for speech
+phrase_timeout: 2                   # Seconds for phrase completion
+
+# Navigation Settings
+default_location: "Entrance"        # Starting location
+step_size: 2                       # Steps per unit distance
+navigation_precision: "moderate"    # 'high', 'moderate', 'low'
+
+# Product Search Settings
+max_search_results: 10             # Maximum products to return
+search_confidence_threshold: 0.5    # Minimum confidence for matches (0.0-1.0)
+suggest_alternatives: true         # Suggest alternatives when product not found
+
+# Audio Settings
+enable_sound_feedback: true        # Enable audio feedback
+beep_on_recognition: false         # Play beep when speech recognized
+audio_device_index: null           # Audio device index (null for default)
+
+# Accessibility Settings
+verbose_descriptions: true         # Provide detailed descriptions
+repeat_instructions: false        # Repeat instructions automatically
+confirmation_required: false      # Require confirmation for actions
+
+# AI Settings (set via environment variables for security)
+# OPENAI_API_KEY=your_key_here
+# ANTHROPIC_API_KEY=your_key_here
+ai_model: "gpt-3.5-turbo"         # AI model to use
+max_ai_response_length: 200       # Maximum AI response length
+
+# Store Settings
+store_layout_file: "data/store_layouts/default_layout.json"
+products_file: "data/products.json"
+store_name: "Generic Supermarket"
+
+# Logging Settings
+log_level: "INFO"                 # DEBUG, INFO, WARNING, ERROR
+log_file: "logs/navigator.log"    # Log file path
+enable_debug_mode: false         # Enable debug logging
+
+# Performance Settings
+cache_enabled: true              # Enable caching
+cache_size: 100                 # Cache size
+preload_data: true              # Preload data at startup
